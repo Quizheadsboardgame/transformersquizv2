@@ -3,187 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Quiz</title>
+    <title>TRANSFORMERS</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #0CC0DF; /* Background color */
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 40%;
-            max-width: 800px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow */
+            background-color: #282c34;
+            color: #ffffff;
+            text-align: center;
             padding: 20px;
         }
-        img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
+        #question {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        #answer {
+            font-size: 20px;
+            margin: 10px 0;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .fadeIn {
+            opacity: 1;
+        }
+        .fadeOut {
+            opacity: 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
             cursor: pointer;
-            border: 5px solid #0CC0DF; /* Outer blue border color */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .qa-box {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .question {
-            font-size: 1.4em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .answer {
-            font-size: 1.2em;
-            color: #555;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Text shadow */
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img id="quizImage" src="https://i.imgur.com/XhwUpeq.png" alt="Quiz Image">
-        <div class="qa-box">
-            <div id="question" class="question">Click the image to get a question!</div>
-            <div id="answer" class="answer"></div>
-        </div>
-    </div>
-    
-    <script>
-        const questionsAndAnswers = [
-            { question: "What is the name of the leader of the Autobots?", answer: "Optimus Prime" },
-            { question: "Who is the leader of the Decepticons?", answer: "Megatron" },
-            { question: "What planet do the Transformers originate from?", answer: "Cybertron" },
-            { question: "Which Transformer transforms into a red sports car?", answer: "Sideswipe" },
-            { question: "What is Bumblebee's vehicle mode?", answer: "A yellow Camaro" },
-            { question: "What is the name of the Autobot medic?", answer: "Ratchet" },
-            { question: "Which Transformer is known for his large size and strength, and transforms into a dinosaur?", answer: "Grimlock" },
-            { question: "What is the name of the Autobots' base on Earth?", answer: "The Ark" },
-            { question: "Which Transformer is a covert spy and transforms into a cassette tape?", answer: "Soundwave" },
-            { question: "Who is the Autobot's intelligence officer and transforms into a red sports car?", answer: "Prowl" },
-            { question: "What is the name of the Decepticon who transforms into a jet and is a member of the Seekers?", answer: "Starscream" },
-            { question: "Who is the Autobot warrior known for his leadership skills and transforming into a truck?", answer: "Optimus Prime" },
-            { question: "What is the name of the Decepticon who transforms into a helicopter?", answer: "Blitzwing" },
-            { question: "What is the name of the Autobots' ally who is a human and serves as a bridge between the two worlds?", answer: "Sam Witwicky" },
-            { question: "Which Transformer is a master of disguise and can transform into a car or a plane?", answer: "Skywarp" },
-            { question: "What is the name of the ancient Transformer who is also known as the original Prime?", answer: "Alpha Trion" },
-            { question: "What is the name of the Autobot scientist who transforms into a Nissan Skyline?", answer: "Wheeljack" },
-            { question: "Which Transformer is known for his powerful sonic attacks and transforms into a boombox?", answer: "Soundwave" },
-            { question: "What is the name of the Decepticon who can transform into a tank and is known for his military prowess?", answer: "Devastator" },
-            { question: "What is the name of the Autobot who transforms into a military jeep?", answer: "Hound" },
-            { question: "Which Transformer is known for his love of Earth and transforms into a Volkswagen Beetle?", answer: "Bumblebee" },
-            { question: "What is the name of the Autobot who can turn into a jet and is a skilled pilot?", answer: "Jetfire" },
-            { question: "Who is the leader of the Decepticons after Megatron's fall?", answer: "Galvatron" },
-            { question: "What is the name of the Autobot who is a skilled sniper and transforms into a rifle?", answer: "Kup" },
-            { question: "Which Transformer is known for his loyalty and transforms into a jet plane?", answer: "Skywarp" },
-            { question: "What is the name of the Decepticon who is a master of the dark arts and transforms into a magical staff?", answer: "Unicron" },
-            { question: "Which Autobot transforms into a race car and is known for his speed?", answer: "Bluestreak" },
-            { question: "What is the name of the Decepticon who is a master of deception and transforms into a car?", answer: "Prowl" },
-            { question: "What is the name of the Autobot who transforms into a fire truck and is a skilled firefighter?", answer: "Inferno" },
-            { question: "Which Transformer is known for his ability to create holograms and transforms into a camera?", answer: "Reflector" },
-            { question: "What is the name of the Decepticon who transforms into a tank and is known for his brute strength?", answer: "Blitzwing" },
-            { question: "What is the name of the Autobot who can turn into a blimp and is a skilled aerial combatant?", answer: "Skydive" },
-            { question: "Who is the Decepticon who is known for his tactical genius and transforms into a jet?", answer: "Starscream" },
-            { question: "What is the name of the Autobot who is a skilled technician and transforms into a tow truck?", answer: "Hoist" },
-            { question: "What is the name of the Decepticon who transforms into a spaceship and is known for his advanced technology?", answer: "Astrotrain" },
-            { question: "What is the name of the Autobot who can turn into a construction vehicle and is known for his strong build?", answer: "Grimlock" },
-            { question: "Who is the Decepticon known for his ability to control electricity and transforms into a drone?", answer: "Shockwave" },
-            { question: "What is the name of the Autobot who transforms into a race car and is known for his agility?", answer: "Jazz" },
-            { question: "What is the name of the Decepticon who transforms into a helicopter and is known for his aerial combat skills?", answer: "Octane" },
-            { question: "Which Transformer transforms into a tank and is known for his military expertise?", answer: "Trypticon" },
-            { question: "What is the name of the Autobot who is a skilled scout and transforms into a four-wheel drive vehicle?", answer: "Cliffjumper" },
-            { question: "Who is the Decepticon who is known for his large size and transforms into a giant robot?", answer: "Devastator" },
-            { question: "What is the name of the Autobot who can turn into a car and is known for his stealth capabilities?", answer: "Sunstreaker" },
-            { question: "Which Transformer transforms into a sports car and is known for his speed and combat skills?", answer: "Mirage" },
-            { question: "What is the name of the Decepticon who transforms into a car and is known for his deceitful nature?", answer: "Ravage" },
-            { question: "What is the name of the Autobot who transforms into a helicopter and is known for his rescue missions?", answer: "Searchlight" },
-            { question: "What is the name of the Decepticon who transforms into a drill tank and is known for his ability to burrow underground?", answer: "Drill Tank" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional strength?", answer: "Ironhide" },
-            { question: "Who is the Decepticon who transforms into a helicopter and is known for his ability to spy and gather information?", answer: "Skywarp" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his intelligence and scientific expertise?", answer: "Wheeljack" },
-            { question: "Which Transformer transforms into a truck and is known for his incredible durability and strength?", answer: "Ultra Magnus" },
-            { question: "What is the name of the Decepticon who transforms into a car and is known for his agility and combat skills?", answer: "Sideswipe" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his speed and agility?", answer: "Bluestreak" },
-            { question: "Who is the Decepticon who transforms into a gun and is known for his deadly firepower?", answer: "Megatron" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional courage and bravery?", answer: "Hot Rod" },
-            { question: "What is the name of the Decepticon who transforms into a tank and is known for his sheer strength?", answer: "Brawl" },
-            { question: "Which Transformer transforms into a jet and is known for his powerful air attacks?", answer: "Thundercracker" },
-            { question: "What is the name of the Autobot who transforms into a fire truck and is known for his heroic acts?", answer: "Red Alert" },
-            { question: "What is the name of the Decepticon who transforms into a car and is known for his stealth and infiltration skills?", answer: "Dead End" },
-            { question: "What is the name of the Autobot who transforms into a helicopter and is known for his combat abilities?", answer: "Powerglide" },
-            { question: "Who is the Decepticon who transforms into a car and is known for his speed and agility?", answer: "Drag Strip" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional intelligence?", answer: "Perceptor" },
-            { question: "What is the name of the Decepticon who transforms into a tank and is known for his immense firepower?", answer: "Onslaught" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional tracking skills?", answer: "Blaster" },
-            { question: "Who is the Decepticon who transforms into a helicopter and is known for his aerial reconnaissance?", answer: "Vortex" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional speed and agility?", answer: "Windcharger" },
-            { question: "What is the name of the Decepticon who transforms into a car and is known for his combat skills?", answer: "Swindle" },
-            { question: "Which Transformer transforms into a jet and is known for his powerful weaponry?", answer: "Ramjet" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional bravery?", answer: "Hot Rod" },
-            { question: "What is the name of the Decepticon who transforms into a car and is known for his stealth capabilities?", answer: "Motormaster" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional agility?", answer: "Jazz" },
-            { question: "Who is the Decepticon who transforms into a tank and is known for his incredible strength?", answer: "Long Haul" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his tracking skills?", answer: "Trailbreaker" },
-            { question: "What is the name of the Decepticon who transforms into a car and is known for his combat expertise?", answer: "Scrapper" },
-            { question: "What is the name of the Autobot who transforms into a helicopter and is known for his rescue operations?", answer: "Rescue Force" },
-            { question: "Who is the Decepticon who transforms into a car and is known for his stealth capabilities?", answer: "Breakdown" },
-            { question: "What is the name of the Autobot who transforms into a truck and is known for his strength and durability?", answer: "Grapple" },
-            { question: "What is the name of the Decepticon who transforms into a tank and is known for his advanced weaponry?", answer: "Mixmaster" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional speed?", answer: "Sunstreaker" },
-            { question: "Who is the Decepticon who transforms into a helicopter and is known for his aerial combat skills?", answer: "Blitzwing" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional tracking skills?", answer: "Hound" },
-            { question: "What is the name of the Decepticon who transforms into a car and is known for his stealth and infiltration abilities?", answer: "Prowl" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional agility and speed?", answer: "Mirage" },
-            { question: "Who is the Decepticon who transforms into a jet and is known for his aerial combat skills?", answer: "Starscream" },
-            { question: "What is the name of the Autobot who transforms into a helicopter and is known for his rescue missions?", answer: "Powerglide" },
-            { question: "What is the name of the Decepticon who transforms into a car and is known for his advanced technology?", answer: "Shockwave" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional strength?", answer: "Ironhide" },
-            { question: "Who is the Decepticon who transforms into a tank and is known for his powerful firepower?", answer: "Devastator" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional intelligence and scientific knowledge?", answer: "Wheeljack" },
-            { question: "What is the name of the Decepticon who transforms into a jet and is known for his stealth capabilities?", answer: "Thundercracker" },
-            { question: "What is the name of the Autobot who transforms into a fire truck and is known for his heroic acts and bravery?", answer: "Red Alert" },
-            { question: "Who is the Decepticon who transforms into a car and is known for his agility and combat skills?", answer: "Drag Strip" },
-            { question: "What is the name of the Autobot who transforms into a helicopter and is known for his exceptional rescue abilities?", answer: "Rescue Force" },
-            { question: "What is the name of the Decepticon who transforms into a car and is known for his advanced combat technology?", answer: "Dead End" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional speed and agility?", answer: "Windcharger" },
-            { question: "Who is the Decepticon who transforms into a helicopter and is known for his aerial reconnaissance skills?", answer: "Vortex" },
-            { question: "What is the name of the Autobot who transforms into a truck and is known for his exceptional strength and durability?", answer: "Grapple" },
-            { question: "What is the name of the Decepticon who transforms into a tank and is known for his powerful weaponry?", answer: "Mixmaster" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional agility and bravery?", answer: "Hot Rod" },
-            { question: "Who is the Decepticon who transforms into a car and is known for his stealth capabilities and combat skills?", answer: "Breakdown" },
-            { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional speed and tracking abilities?", answer: "Trailbreaker" },
-            { question: "What is the name of the Decepticon who transforms into a car and is known for his combat expertise and advanced technology?", answer: "Scrapper" },
-            { question: "What is the name of the Autobot who transforms into a helicopter and is known for his exceptional rescue operations?", answer: "Rescue Force" },
-            { question: "Who is the Decepticon who transforms into a car and is known for his advanced stealth and infiltration skills?", answer: "Breakdown" },
-            { question: "What is the name of the Autobot who transforms into a truck and is known for his exceptional strength and durability?", answer: "Grapple" },
-            { question: "What is the name of the Decepticon who transforms into a tank and is known for his advanced weaponry and combat skills?", answer: "Mixmaster" }
-        ];
 
-        const img = document.getElementById('quizImage');
-        const questionElement = document.getElementById('question');
-        const answerElement = document.getElementById('answer');
+<h1>TRANSFORMERS Quiz</h1>
+<div id="question"></div>
+<div id="answer"></div>
+<button id="next-button" onclick="nextQuestion()">Next Question</button>
 
-        function getRandomQuestion() {
-            const randomIndex = Math.floor(Math.random() * questionsAndAnswers.length);
-            return questionsAndAnswers[randomIndex];
+<script>
+    const quizData = [
+        { question: "What is the name of the leader of the Autobots?", answer: "Optimus Prime" },
+        { question: "Who is the leader of the Decepticons?", answer: "Megatron" },
+        { question: "What planet do the Transformers originate from?", answer: "Cybertron" },
+        { question: "Which Transformer transforms into a red sports car?", answer: "Sideswipe" },
+        { question: "What is Bumblebee's vehicle mode?", answer: "A yellow Camaro" },
+        { question: "What is the name of the Autobot medic?", answer: "Ratchet" },
+        { question: "Which Transformer is known for his large size and strength, and transforms into a dinosaur?", answer: "Grimlock" },
+        { question: "What is the name of the Autobots' base on Earth?", answer: "The Ark" },
+        { question: "Which Transformer is a covert spy and transforms into a cassette tape?", answer: "Soundwave" },
+        { question: "Who is the Autobot's intelligence officer and transforms into a red sports car?", answer: "Prowl" },
+        { question: "What is the name of the Decepticon who transforms into a jet and is a member of the Seekers?", answer: "Starscream" },
+        { question: "Who is the Autobot warrior known for his leadership skills and transforming into a truck?", answer: "Optimus Prime" },
+        { question: "What is the name of the Decepticon who transforms into a helicopter?", answer: "Blitzwing" },
+        { question: "What is the name of the Autobots' ally who is a human and serves as a bridge between the two worlds?", answer: "Sam Witwicky" },
+        { question: "Which Transformer is a master of disguise and can transform into a car or a plane?", answer: "Skywarp" },
+        { question: "What is the name of the ancient Transformer who is also known as the original Prime?", answer: "Alpha Trion" },
+        { question: "What is the name of the Autobot scientist who transforms into a Nissan Skyline?", answer: "Wheeljack" },
+        { question: "Which Transformer is known for his powerful sonic attacks and transforms into a boombox?", answer: "Soundwave" },
+        { question: "What is the name of the Decepticon who can transform into a tank and is known for his military prowess?", answer: "Devastator" },
+        { question: "What is the name of the Autobot who transforms into a military jeep?", answer: "Hound" },
+        { question: "Which Transformer is known for his love of Earth and transforms into a Volkswagen Beetle?", answer: "Bumblebee" },
+        { question: "What is the name of the Autobot who can turn into a jet and is a skilled pilot?", answer: "Jetfire" },
+        { question: "Who is the leader of the Decepticons after Megatron's fall?", answer: "Galvatron" },
+        { question: "What is the name of the Autobot who is a skilled sniper and transforms into a rifle?", answer: "Kup" },
+        { question: "Which Transformer is known for his loyalty and transforms into a jet plane?", answer: "Skywarp" },
+        { question: "What is the name of the Decepticon who is a master of the dark arts and transforms into a magical staff?", answer: "Unicron" },
+        { question: "Which Autobot transforms into a race car and is known for his speed?", answer: "Bluestreak" },
+        { question: "What is the name of the Decepticon who is a master of deception and transforms into a car?", answer: "Prowl" },
+        { question: "What is the name of the Autobot who transforms into a fire truck and is a skilled firefighter?", answer: "Inferno" },
+        { question: "Which Transformer is known for his ability to create holograms and transforms into a camera?", answer: "Reflector" },
+        { question: "What is the name of the Decepticon who transforms into a tank and is known for his brute strength?", answer: "Blitzwing" },
+        { question: "What is the name of the Autobot who can turn into a blimp and is a skilled aerial combatant?", answer: "Skydive" },
+        { question: "Who is the Decepticon who is known for his tactical genius and transforms into a jet?", answer: "Starscream" },
+        { question: "What is the name of the Autobot who is a skilled technician and transforms into a tow truck?", answer: "Hoist" },
+        { question: "What is the name of the Decepticon who transforms into a spaceship and is known for his advanced technology?", answer: "Astrotrain" },
+        { question: "What is the name of the Autobot who can turn into a construction vehicle and is known for his strong build?", answer: "Grimlock" },
+        { question: "Who is the Decepticon known for his ability to control electricity and transforms into a drone?", answer: "Shockwave" },
+        { question: "What is the name of the Autobot who transforms into a race car and is known for his agility?", answer: "Jazz" },
+        { question: "What is the name of the Decepticon who transforms into a helicopter and is known for his aerial combat skills?", answer: "Octane" },
+        { question: "Which Transformer transforms into a tank and is known for his military expertise?", answer: "Trypticon" },
+        { question: "What is the name of the Autobot who is a skilled scout and transforms into a four-wheel drive vehicle?", answer: "Cliffjumper" },
+        { question: "Who is the Decepticon who is known for his large size and transforms into a giant robot?", answer: "Devastator" },
+        { question: "What is the name of the Autobot who can turn into a car and is known for his stealth capabilities?", answer: "Sunstreaker" },
+        { question: "Which Transformer transforms into a sports car and is known for his speed and combat skills?", answer: "Mirage" },
+        { question: "What is the name of the Decepticon who transforms into a car and is known for his deceitful nature?", answer: "Ravage" },
+        { question: "What is the name of the Autobot who transforms into a helicopter and is known for his rescue missions?", answer: "Searchlight" },
+        { question: "What is the name of the Decepticon who transforms into a drill tank and is known for his ability to burrow underground?", answer: "Drill Tank" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional strength?", answer: "Ironhide" },
+        { question: "Who is the Decepticon who transforms into a helicopter and is known for his ability to spy and gather information?", answer: "Skywarp" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his intelligence and scientific expertise?", answer: "Wheeljack" },
+        { question: "Which Transformer transforms into a truck and is known for his incredible durability and strength?", answer: "Ultra Magnus" },
+        { question: "What is the name of the Decepticon who transforms into a car and is known for his agility and combat skills?", answer: "Sideswipe" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his speed and agility?", answer: "Bluestreak" },
+        { question: "Who is the Decepticon who transforms into a gun and is known for his deadly firepower?", answer: "Megatron" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional courage and bravery?", answer: "Hot Rod" },
+        { question: "What is the name of the Decepticon who transforms into a tank and is known for his sheer strength?", answer: "Brawl" },
+        { question: "Which Transformer transforms into a jet and is known for his powerful air attacks?", answer: "Thundercracker" },
+        { question: "What is the name of the Autobot who transforms into a fire truck and is known for his heroic acts?", answer: "Red Alert" },
+        { question: "What is the name of the Decepticon who transforms into a car and is known for his stealth and infiltration skills?", answer: "Dead End" },
+        { question: "What is the name of the Autobot who transforms into a helicopter and is known for his combat abilities?", answer: "Powerglide" },
+        { question: "Who is the Decepticon who transforms into a car and is known for his speed and agility?", answer: "Drag Strip" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional intelligence?", answer: "Perceptor" },
+        { question: "What is the name of the Decepticon who transforms into a tank and is known for his immense firepower?", answer: "Onslaught" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional tracking skills?", answer: "Blaster" },
+        { question: "Who is the Decepticon who transforms into a helicopter and is known for his aerial reconnaissance?", answer: "Vortex" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional speed and agility?", answer: "Windcharger" },
+        { question: "What is the name of the Decepticon who transforms into a car and is known for his combat skills?", answer: "Swindle" },
+        { question: "Which Transformer transforms into a jet and is known for his powerful weaponry?", answer: "Ramjet" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional bravery?", answer: "Hot Rod" },
+        { question: "What is the name of the Decepticon who transforms into a car and is known for his stealth capabilities?", answer: "Motormaster" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional agility?", answer: "Jazz" },
+        { question: "Who is the Decepticon who transforms into a tank and is known for his incredible strength?", answer: "Long Haul" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his tracking skills?", answer: "Trailbreaker" },
+        { question: "What is the name of the Decepticon who transforms into a car and is known for his combat expertise?", answer: "Scrapper" },
+        { question: "What is the name of the Autobot who transforms into a helicopter and is known for his rescue operations?", answer: "Rescue Force" },
+        { question: "Who is the Decepticon who transforms into a car and is known for his stealth capabilities?", answer: "Breakdown" },
+        { question: "What is the name of the Autobot who transforms into a truck and is known for his strength and durability?", answer: "Grapple" },
+        { question: "What is the name of the Decepticon who transforms into a tank and is known for his advanced weaponry?", answer: "Mixmaster" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional speed?", answer: "Sunstreaker" },
+        { question: "Who is the Decepticon who transforms into a helicopter and is known for his aerial combat skills?", answer: "Blitzwing" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional tracking skills?", answer: "Hound" },
+        { question: "What is the name of the Decepticon who transforms into a car and is known for his stealth and infiltration abilities?", answer: "Prowl" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional agility and speed?", answer: "Mirage" },
+        { question: "Who is the Decepticon who transforms into a jet and is known for his aerial combat skills?", answer: "Starscream" },
+        { question: "What is the name of the Autobot who transforms into a helicopter and is known for his rescue missions?", answer: "Powerglide" },
+        { question: "What is the name of the Decepticon who transforms into a car and is known for his advanced technology?", answer: "Shockwave" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional strength?", answer: "Ironhide" },
+        { question: "Who is the Decepticon who transforms into a tank and is known for his powerful firepower?", answer: "Devastator" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional intelligence and scientific knowledge?", answer: "Wheeljack" },
+        { question: "What is the name of the Decepticon who transforms into a jet and is known for his stealth capabilities?", answer: "Thundercracker" },
+        { question: "What is the name of the Autobot who transforms into a fire truck and is known for his heroic acts and bravery?", answer: "Red Alert" },
+        { question: "Who is the Decepticon who transforms into a car and is known for his agility and combat skills?", answer: "Drag Strip" },
+        { question: "What is the name of the Autobot who transforms into a helicopter and is known for his exceptional rescue abilities?", answer: "Rescue Force" },
+        { question: "What is the name of the Decepticon who transforms into a car and is known for his advanced combat technology?", answer: "Dead End" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional speed and agility?", answer: "Windcharger" },
+        { question: "Who is the Decepticon who transforms into a helicopter and is known for his aerial reconnaissance skills?", answer: "Vortex" },
+        { question: "What is the name of the Autobot who transforms into a truck and is known for his exceptional strength and durability?", answer: "Grapple" },
+        { question: "What is the name of the Decepticon who transforms into a tank and is known for his powerful weaponry?", answer: "Mixmaster" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional agility and bravery?", answer: "Hot Rod" },
+        { question: "Who is the Decepticon who transforms into a car and is known for his stealth capabilities and combat skills?", answer: "Breakdown" },
+        { question: "What is the name of the Autobot who transforms into a car and is known for his exceptional speed and tracking abilities?", answer: "Trailbreaker" },
+        { question: "What is the name of the Decepticon who transforms into a car and is known for his combat expertise and advanced technology?", answer: "Scrapper" },
+        { question: "What is the name of the Autobot who transforms into a helicopter and is known for his exceptional rescue operations?", answer: "Rescue Force" },
+        { question: "Who is the Decepticon who transforms into a car and is known for his advanced stealth and infiltration skills?", answer: "Breakdown" },
+        { question: "What is the name of the Autobot who transforms into a truck and is known for his exceptional strength and durability?", answer: "Grapple" },
+        { question: "What is the name of the Decepticon who transforms into a tank and is known for his advanced weaponry and combat skills?", answer: "Mixmaster" }
+    ];
+
+    let currentQuestionIndex = 0;
+
+    function showQuestion() {
+        const questionElement = document.getElementById("question");
+        const answerElement = document.getElementById("answer");
+
+        questionElement.textContent = quizData[currentQuestionIndex].question;
+        answerElement.textContent = "";
+        answerElement.classList.remove("fadeIn");
+        answerElement.classList.add("fadeOut");
+    }
+
+    function showAnswer() {
+        const answerElement = document.getElementById("answer");
+        answerElement.textContent = quizData[currentQuestionIndex].answer;
+        answerElement.classList.remove("fadeOut");
+        answerElement.classList.add("fadeIn");
+    }
+
+    function nextQuestion() {
+        const answerElement = document.getElementById("answer");
+
+        if (answerElement.textContent === "") {
+            showAnswer();
+        } else {
+            currentQuestionIndex = (currentQuestionIndex + 1) % quizData.length;
+            showQuestion();
         }
+    }
 
-        img.addEventListener('click', () => {
-            const { question, answer } = getRandomQuestion();
-            questionElement.textContent = question;
-            answerElement.textContent = answer;
-        });
-    </script>
+    showQuestion();
+</script>
+
 </body>
 </html>
